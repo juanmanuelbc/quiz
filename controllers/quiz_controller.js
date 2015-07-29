@@ -18,41 +18,48 @@ exports.index = function (req, res) {
   if (req.query.search) {
     var busqueda = '%' + req.query.search.replace(/ /g, '%') + '%';
     models.Quiz.findAll({ where: ['pregunta like ?', busqueda], order: 'pregunta ASC' }).then(function(quizes) {
-      res.render('quizes/index', { quizes: quizes });
+      res.render('quizes/index', { quizes: quizes, errors: [] });
     }).catch(function(error) { next(error); });
   }
   else {
     models.Quiz.findAll().then(function(quizes) {
-      res.render('quizes/index', { quizes: quizes });
+      res.render('quizes/index', { quizes: quizes, errors: [] });
     }).catch(function(error) { next(error); });
   }
 };
 
 // GET /quizes/:quizId
 exports.question = function (req, res) {
-  res.render('quizes/question', { quiz: req.quiz });
+  res.render('quizes/question', { quiz: req.quiz, errors: [] });
 };
 
 // GET /quizes/:quizId/answer
 exports.answer = function (req, res) {
   if (req.query.respuesta === req.quiz.respuesta) {
-    res.render('quizes/answer', { quiz: req.quiz, respuesta: 'Correcto' });
+    res.render('quizes/answer', { quiz: req.quiz, respuesta: 'Correcto', errors: [] });
   }
   else {
-    res.render('quizes/answer', { quiz: req.quiz, respuesta: 'Incorrecto' });
+    res.render('quizes/answer', { quiz: req.quiz, respuesta: 'Incorrecto', errors: [] });
   }
 };
 
 // GET /quizes/new
 exports.new = function (req, res) {
   var quiz = models.Quiz.build({ pregunta: 'Pregunta', respuesta: 'Respuesta' });
-  res.render('quizes/new', { quiz: quiz });
+  res.render('quizes/new', { quiz: quiz, errors: [] });
 };
 
 // POST /quizes/create
 exports.create = function (req, res) {
   var quiz = models.Quiz.build(req.body.quiz);
-  quiz.save({ fields: ['pregunta', 'respuesta'] }).then(function() {
-    res.redirect('/quizes');
+  quiz.validate().then(function(err) {
+    if (err) {
+      res.render('quizes/new', { quiz: quiz, errors: err.errors });
+    }
+    else {
+      quiz.save({ fields: ['pregunta', 'respuesta'] }).then(function() {
+	res.redirect('/quizes');
+      });
+    }
   });
 };
