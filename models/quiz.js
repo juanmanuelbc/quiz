@@ -1,4 +1,4 @@
-// Definición del modelo de Quiz con validación
+// Definición del modelo de Quiz con validación e índice temático
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Quiz', {
@@ -7,7 +7,10 @@ module.exports = function(sequelize, DataTypes) {
 						validate: { notEmpty: { msg: 'Falta la Pregunta' } } },
 				    respuesta: {
 						 type: DataTypes.STRING,
-						 validate: { notEmpty: { msg: 'Falta la Respuesta' } } }
+						 validate: { notEmpty: { msg: 'Falta la Respuesta' } } },
+				    tema: {
+					    type: DataTypes.STRING,
+					    validate: { notEmpty: { msg: 'Falta el Tema' } } }
 				  }
   );
 }

@@ -6,5 +6,16 @@
   <label for='respuesta' class='REM'>Respuesta:</label>
   <input type='text' id='respuesta' name='quiz[respuesta]' value='<%= quiz.respuesta %>' />
 </p>
+<p>
+  <label for='tema' class='REM'>Tema:</label>
+  <select id='tema' name='quiz[tema]'>
+    <option value=''>Seleccione el tema</option>
+    <option value='humanidades'<% if (quiz.tema === 'humanidades') { %> selected<% } %>>Humanidades</option>
+    <option value='ocio'<% if (quiz.tema === 'ocio') { %> selected<% } %>>Ocio</option>
+    <option value='ciencia'<% if (quiz.tema === 'ciencia') { %> selected<% } %>>Ciencia</option>
+    <option value='tecnologia'<% if (quiz.tema === 'tecnologia') { %> selected<% } %>>Tecnología</option>
+    <option value='otro'<%if (quiz.tema === 'otro') { %> selected<% } %>>Otro</option>
+  </select>
+</p>
 <input type='submit' value='Guardar' />
 <a href='/quizes'><button type='button'>Cancelar</button></a>
