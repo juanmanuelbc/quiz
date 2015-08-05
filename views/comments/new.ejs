@@ -1,0 +1,9 @@
+<p>Añadir comentario:</p>
+<form method='POST' action='/quizes/<%= quizId %>/comments/create'>
+  <p>
+    <label for='texto' class='REM'>Texto:</label>
+    <input type='text' id='texto' name='comment[texto]' value='Comentario aquí' />
+  </p>
+  <input type='submit' value='Guardar' />
+  <a href='/quizes/<%= quizId %>'><button type='button'>Cancelar</button></a>
+</form>
