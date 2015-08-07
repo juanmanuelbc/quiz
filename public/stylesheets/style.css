@@ -33,6 +33,10 @@ nav span {
   font-size: smaler;
 }
 
+.right {
+  float: right;
+}
+
 section > div {
   padding: 20px;
 }
