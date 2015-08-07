@@ -6,13 +6,17 @@
   <% for (var i = 0; i < quizes.length; i++) { %>
   <tr>
     <td><a href='quizes/<%= quizes[i].id %>'><%= quizes[i].pregunta %></a></td>
-    <td><a href='quizes/<%= quizes[i].id %>/edit'><button type='button'>Editar</button></a></td>
-    <td>
-      <form method='POST' action='/quizes/<%= quizes[i].id %>?_method=DELETE'>
-	<input type='submit' onClick='return confirm("¿Borrar \"<%= quizes[i].pregunta %>\"?");' value='Borrar' />
-      </form>
-    </td>
+    <% if (session.user) { %>
+      <td><a href='quizes/<%= quizes[i].id %>/edit'><button type='button'>Editar</button></a></td>
+      <td>
+        <form method='POST' action='/quizes/<%= quizes[i].id %>?_method=DELETE'>
+	  <input type='submit' onClick='return confirm("¿Borrar \"<%= quizes[i].pregunta %>\"?");' value='Borrar' />
+        </form>
+      </td>
+    <% } %>
   </tr>
   <% } %>
 </table>
-<a href='quizes/new'><button type='button'>Crear pregunta</button></a>
+<% if (session.user) { %>
+  <a href='quizes/new'><button type='button'>Crear pregunta</button></a>
+<% } %>

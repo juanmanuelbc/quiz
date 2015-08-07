@@ -1,3 +1,13 @@
+// Middleware de autorización de acceso a páginas restringidas
+exports.authorize = function (req, res, next) {
+  if (req.session.user) {
+    next();
+  }
+  else {
+    res.redirect('/login');
+  }
+};
+
 // GET /login
 exports.new = function (req, res) {
   var errors = req.session.errors || {};
