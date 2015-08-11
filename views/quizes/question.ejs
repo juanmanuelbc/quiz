@@ -7,7 +7,14 @@
   <p><strong>Comentarios:</strong></p>
   <ul>
   <% for (var i in quiz.Comments) { %>
-    <li><%= quiz.Comments[i].texto %></li>
+    <form method='POST' action='/quizes/<%= quiz.id %>/comments/<%= quiz.Comments[i].id %>/publish?_method=PUT'>
+      <li>
+	<%= quiz.Comments[i].texto %>
+	<% if (!quiz.Comments[i].publicado) { %>
+	  <input type='submit' value='Publicar' />
+	<% } %>
+      </li>
+    </form>
   <% } %>
   </ul>
 <% } %>
