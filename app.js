@@ -40,6 +40,27 @@ app.use(function(req, res, next) {
   next();
 });
 
+//Auto-logout de sesión a los 2 minutos de inactividad
+app.use(function(req, res, next) {
+  if (req.session.user) {
+    var now = Date.now();
+    var last = (req.session.user.last) ? req.session.user.last : Date.now();
+    var diff = now - last;
+
+    if (diff < (2 * 60 * 1000)) {
+      req.session.user.last = now;
+      next();
+    }
+    else {
+      delete req.session.user;
+      res.redirect(req.session.redir);
+    }
+  }
+  else {
+    next();
+  }
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
